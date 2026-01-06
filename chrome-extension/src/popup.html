@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Gear</title>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="icon">⚡</span>
+                <h1 data-i18n="popupTitle">Video Gear</h1>
+            </div>
+            <div class="header-actions">
+                <button id="lang-toggle" title="Switch Language">JP</button>
+                <button id="open-settings" title="Settings">⚙️</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="speed-display">
+                <span id="current-speed-val">100</span><span class="unit">%</span>
+            </div>
+
+            <div class="slider-container">
+                <input type="range" id="speed-slider" min="50" max="250" step="1" value="100">
+                <div class="slider-buttons">
+                    <button id="speed-down">−</button>
+                    <button id="speed-reset">RESET</button>
+                    <button id="speed-up">+</button>
+                </div>
+            </div>
+
+            <div class="preset-grid">
+                <button class="preset-btn" data-speed="50">50%</button>
+                <button class="preset-btn" data-speed="100">100%</button>
+                <button class="preset-btn" data-speed="125">125%</button>
+                <button class="preset-btn" data-speed="150">150%</button>
+                <button class="preset-btn" data-speed="175">175%</button>
+                <button class="preset-btn" data-speed="200">200%</button>
+            </div>
+        </main>
+
+        <div id="no-media-msg" class="hidden">
+            対象メディアが見つかりません
+        </div>
+    </div>
+    <script src="utils/speed.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Video Gear Settings</title>
+    <link rel="stylesheet" href="options.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-row">
+                <h1 data-i18n="optionsTitle">Video Gear 設定</h1>
+                <button type="button" id="options-lang-toggle" class="secondary-btn" data-i18n="langToggleLabel">EN</button>
+            </div>
+        </header>
+
+        <section>
+            <h2 data-i18n="speedSettings">再生速度の設定</h2>
+            <div class="row">
+                <label data-i18n="speedStep">増減ボタンの単位 (%)</label>
+                <input type="number" id="speed-step" value="10">
+            </div>
+            <div class="row">
+                <label data-i18n="speedMin">スライダー最小 (%)</label>
+                <input type="number" id="speed-min" value="50">
+            </div>
+            <div class="row">
+                <label data-i18n="speedMax">スライダー最大 (%)</label>
+                <input type="number" id="speed-max" value="250">
+            </div>
+        </section>
+
+        <section>
+            <h2 data-i18n="presetPanel">一発変速パネル (プリセット)</h2>
+            <div class="presets-grid">
+                <div class="row"><label>1:</label><input type="number" class="preset-input" value="50"></div>
+                <div class="row"><label>2:</label><input type="number" class="preset-input" value="100"></div>
+                <div class="row"><label>3:</label><input type="number" class="preset-input" value="125"></div>
+                <div class="row"><label>4:</label><input type="number" class="preset-input" value="150"></div>
+                <div class="row"><label>5:</label><input type="number" class="preset-input" value="175"></div>
+                <div class="row"><label>6:</label><input type="number" class="preset-input" value="200"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2 data-i18n="shortcuts">ショートカット</h2>
+            <div class="row">
+                <label data-i18n="toggleSpeed">トグル時の速度 (%)</label>
+                <input type="number" id="toggle-speed" value="200">
+            </div>
+            <div class="row">
+                <label data-i18n="toggleKey">ページ内トグルキー（keydown）</label>
+                <input type="text" id="toggle-key" value="F13" placeholder="押下して設定" data-i18n-placeholder="toggleKeyPlaceholder">
+            </div>
+            <div class="row">
+                <label data-i18n="shortcutSettings">トグルキー設定</label>
+                <button type="button" id="open-chrome-shortcuts" class="secondary-btn" data-i18n="openShortcutSettings">ショートカット設定を開く</button>
+            </div>
+        </section>
+
+        <footer>
+            <button id="save-btn" data-i18n="saveSettings">設定を保存</button>
+            <span id="save-status"></span>
+        </footer>
+    </div>
+    <script src="utils/speed.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>

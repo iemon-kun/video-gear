@@ -1,0 +1,6 @@
+rf/
+.agentignore/
+chrome-extension.crx
+chrome-extension.pem
+.DS_Store
+.venv/

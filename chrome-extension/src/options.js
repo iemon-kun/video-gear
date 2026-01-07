@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const i18n = {
         JP: {
             title: 'ビデオギア 設定',
+            optionsTitle: 'ビデオギア 設定',
             speedSettings: '再生速度の設定',
             speedStep: '増減ボタンの単位 (%)',
             speedMin: 'スライダー最小 (%)',
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         EN: {
             title: 'Video Gear Settings',
+            optionsTitle: 'Video Gear Settings',
             speedSettings: 'Playback Speed',
             speedStep: 'Step size (%)',
             speedMin: 'Slider min (%)',

@@ -4,7 +4,8 @@ const STORAGE_DEFAULTS = {
   speedMin: 50,
   speedMax: 250,
   presets: [50, 100, 125, 150, 175, 200],
-  toggleKeyCode: 'F13'
+  toggleKeyCode: 'F13',
+  toggleShortcuts: []
 };
 const SESSION_KEY = 'tabSpeeds';
 const DEFAULT_SPEED = 100;
@@ -24,6 +25,14 @@ const getSettings = async () => {
   return {
     toggleSpeed: clampSpeed(data.toggleSpeed, STORAGE_DEFAULTS.toggleSpeed)
   };
+};
+
+const resolveToggleSpeed = async (requestedSpeed) => {
+  if (typeof requestedSpeed !== 'undefined') {
+    return clampSpeed(requestedSpeed, STORAGE_DEFAULTS.toggleSpeed);
+  }
+  const { toggleSpeed } = await getSettings();
+  return toggleSpeed;
 };
 
 const mediaStatuses = {};
@@ -55,9 +64,9 @@ const getTabSpeed = async (tabId) => {
   return clampSpeed(stored, DEFAULT_SPEED);
 };
 
-const toggleSpeedForTab = async (tabId) => {
+const toggleSpeedForTab = async (tabId, requestedSpeed) => {
   if (!tabId) return;
-  const { toggleSpeed: targetSpeed } = await getSettings();
+  const targetSpeed = await resolveToggleSpeed(requestedSpeed);
   const currentSpeed = await getTabSpeed(tabId);
   const nextSpeed = currentSpeed === DEFAULT_SPEED ? targetSpeed : DEFAULT_SPEED;
   await setTabSpeed(tabId, clampSpeed(nextSpeed, DEFAULT_SPEED));
@@ -80,7 +89,7 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   if (request.action === 'toggle-speed') {
     const tabId = _sender?.tab?.id;
     if (tabId) {
-      toggleSpeedForTab(tabId).then(() => sendResponse({ success: true }));
+      toggleSpeedForTab(tabId, request.speed).then(() => sendResponse({ success: true }));
       return true;
     }
     toggleSpeed().then(() => sendResponse({ success: true }));

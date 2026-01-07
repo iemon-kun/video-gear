@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Video Gear",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "全サイトの動画・音声を自由自在にコントロール。爽快な操作性をその手に。",
   "permissions": [
     "storage"

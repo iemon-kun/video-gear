@@ -2,6 +2,9 @@
     let currentSpeed = 1.0;
     const defaultSpeed = 1.0;
     let toggleKeyCode = 'F13';
+    let toggleSpeed = 200;
+    let storedShortcuts = [];
+    let toggleShortcuts = [];
     const MIN_RATE = 0.01;
     const MAX_RATE = 20;
     const RATE_EPSILON = 0.001;
@@ -43,9 +46,35 @@
         }
     };
 
-    chrome.storage.sync.get(['toggleKeyCode'], (settings) => {
+    const clampSpeedValue = (value, fallback) => {
+        const parsed = Number.parseInt(value, 10);
+        if (Number.isNaN(parsed)) return fallback;
+        return clamp(parsed, 1, 2000);
+    };
+
+    const buildShortcutList = (list, fallbackKey, fallbackSpeed) => {
+        const shortcuts = [];
+        if (fallbackKey) {
+            shortcuts.push({ keyCode: fallbackKey, speed: fallbackSpeed });
+        }
+        if (Array.isArray(list)) {
+            list.forEach((item) => {
+                if (!item || typeof item.keyCode !== 'string') return;
+                const speed = clampSpeedValue(item.speed, fallbackSpeed);
+                shortcuts.push({ keyCode: item.keyCode, speed });
+            });
+        }
+        return shortcuts;
+    };
+
+    chrome.storage.sync.get(['toggleKeyCode', 'toggleSpeed', 'toggleShortcuts'], (settings) => {
         currentSpeed = defaultSpeed;
         if (settings.toggleKeyCode) toggleKeyCode = settings.toggleKeyCode;
+        if (typeof settings.toggleSpeed !== 'undefined') {
+            toggleSpeed = clampSpeedValue(settings.toggleSpeed, toggleSpeed);
+        }
+        storedShortcuts = Array.isArray(settings.toggleShortcuts) ? settings.toggleShortcuts : [];
+        toggleShortcuts = buildShortcutList(storedShortcuts, toggleKeyCode, toggleSpeed);
         safeRuntimeSendMessage({ action: 'get-tab-speed' }, (response) => {
             if (response && response.success && typeof response.speed === 'number') {
                 currentSpeed = toRate(response.speed / 100, defaultSpeed);
@@ -57,8 +86,21 @@
     // ストレージの変更を監視
     chrome.storage.onChanged.addListener((changes, area) => {
         if (area === 'sync') {
+            let shouldRebuild = false;
             if (changes.toggleKeyCode) {
                 toggleKeyCode = changes.toggleKeyCode.newValue;
+                shouldRebuild = true;
+            }
+            if (changes.toggleSpeed) {
+                toggleSpeed = clampSpeedValue(changes.toggleSpeed.newValue, toggleSpeed);
+                shouldRebuild = true;
+            }
+            if (changes.toggleShortcuts) {
+                storedShortcuts = Array.isArray(changes.toggleShortcuts.newValue) ? changes.toggleShortcuts.newValue : [];
+                shouldRebuild = true;
+            }
+            if (shouldRebuild) {
+                toggleShortcuts = buildShortcutList(storedShortcuts, toggleKeyCode, toggleSpeed);
             }
         }
     });
@@ -233,9 +275,10 @@
             blockKeyUp = false;
             const active = findLeafActiveElement(document);
             if (isEditableElement(e.target) || isEditableElement(active)) return;
-            if (e.code === toggleKeyCode) {
+            const matched = toggleShortcuts.find((shortcut) => shortcut.keyCode === e.code);
+            if (matched) {
                 blockKeyUp = true;
-                safeRuntimeSendMessage({ action: 'toggle-speed' });
+                safeRuntimeSendMessage({ action: 'toggle-speed', speed: matched.speed });
                 e.preventDefault();
                 e.stopImmediatePropagation();
             }

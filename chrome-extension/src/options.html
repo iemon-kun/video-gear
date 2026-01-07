@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Video Gear Settings</title>
     <link rel="stylesheet" href="options.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -46,19 +45,28 @@
         </section>
 
         <section>
-            <h2 data-i18n="shortcuts">ショートカット</h2>
-            <div class="row">
-                <label data-i18n="toggleSpeed">トグル時の速度 (%)</label>
-                <input type="number" id="toggle-speed" value="200">
+            <div class="section-header">
+                <h2 data-i18n="shortcuts">ショートカット</h2>
+                <button type="button" id="add-shortcut" class="icon-btn" data-i18n-aria="addShortcutLabel" aria-label="ショートカットを追加">+</button>
             </div>
-            <div class="row">
-                <label data-i18n="toggleKey">ページ内トグルキー（keydown）</label>
-                <input type="text" id="toggle-key" value="F13" placeholder="押下して設定" data-i18n-placeholder="toggleKeyPlaceholder">
+            <div class="shortcut-card main-shortcut">
+                <div class="subsection-header">
+                    <div class="subsection-title" data-i18n="mainShortcutLabel">メインショートカットキー</div>
+                </div>
+                <div class="row">
+                    <label data-i18n="toggleSpeed">トグル時の速度 (%)</label>
+                    <input type="number" id="toggle-speed" value="200">
+                </div>
+                <div class="row">
+                    <label data-i18n="toggleKey">ページ内トグルキー（keydown）</label>
+                    <input type="text" id="toggle-key" value="F13" placeholder="押下して設定" data-i18n-placeholder="toggleKeyPlaceholder">
+                </div>
+                <div class="row">
+                    <label data-i18n="shortcutSettings">トグルキー設定</label>
+                    <button type="button" id="open-chrome-shortcuts" class="secondary-btn" data-i18n="openShortcutSettings">ショートカット設定を開く</button>
+                </div>
             </div>
-            <div class="row">
-                <label data-i18n="shortcutSettings">トグルキー設定</label>
-                <button type="button" id="open-chrome-shortcuts" class="secondary-btn" data-i18n="openShortcutSettings">ショートカット設定を開く</button>
-            </div>
+            <div id="extra-shortcuts"></div>
         </section>
 
         <footer>

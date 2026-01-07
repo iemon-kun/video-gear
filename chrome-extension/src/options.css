@@ -8,7 +8,7 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     background-color: var(--bg-dark);
     color: var(--text);
     margin: 0;
@@ -64,6 +64,40 @@ section h2 {
     padding-bottom: 8px;
 }
 
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+}
+
+.shortcut-card {
+    background: rgba(15, 23, 42, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.subsection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.subsection-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.5px;
+}
+
 .row {
     display: flex;
     justify-content: space-between;
@@ -94,6 +128,30 @@ button.secondary-btn {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
+}
+
+button.icon-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.2s;
+}
+
+button.icon-btn.small {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+}
+
+button.icon-btn:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
 }
 
 button.secondary-btn:hover {

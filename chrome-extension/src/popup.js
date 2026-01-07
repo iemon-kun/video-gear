@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeTabId = null;
     let mediaStatusReceived = false;
     let noMediaTimer = null;
+    let pendingTabSpeed = null;
 
     const DEFAULT_SPEED = 100;
     let config = { ...DEFAULTS };
@@ -149,7 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (message.action === 'tab-speed-updated') {
             if (activeTabId && message.tabId === activeTabId) {
                 setDisplay(message.speed, { allowOutOfRangeDisplay: true });
+                return;
             }
+            pendingTabSpeed = { tabId: message.tabId, speed: message.speed };
             return;
         }
         if (message.action === 'mediaStatus' && message.mediaStatus) {
@@ -167,6 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tabs || !tabs[0]) return;
         activeTabId = tabs[0].id;
         noMediaMsg.classList.add('hidden');
+        if (pendingTabSpeed && pendingTabSpeed.tabId === activeTabId) {
+            setDisplay(pendingTabSpeed.speed, { allowOutOfRangeDisplay: true });
+            pendingTabSpeed = null;
+        }
         chrome.runtime.sendMessage({ action: 'get-tab-speed', tabId: activeTabId }, (response) => {
             if (chrome.runtime.lastError) return;
             if (response && response.success && typeof response.speed === 'number') {
